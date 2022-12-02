@@ -68,8 +68,8 @@ poke Api를 사용하여 포켓몬 사이트를 구현했습니다.
 📦src
  ┣ 📂apis
  ┃ ┗ 📜api.ts
- ┣ 📂Components
  ┣ 📂assets
+ ┣ 📂Components
  ┃ ┣ 📂navbar
  ┃ ┣ 📂pokemonList
  ┃ ┣ 📂pokemonSearchCard
