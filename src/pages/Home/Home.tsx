@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { getSearchPokemon } from "../../apis/api";
+import { getPokemon, getSearchPokemon } from "../../apis/api";
+import PokemonList from "../../components/pokemonList/PokemonList";
 import SearchBar from "../../components/searchbar/SearchBar";
-import { IDetailPokemon } from "../../interfaces/interface";
+import { IDetailPokemon, IListPokemon } from "../../interfaces/interface";
 import PokemonSearchCard from "../../components/pokemonSearchCard/PokemonSearchCard";
 
 function Home() {
@@ -16,6 +17,11 @@ function Home() {
       getSearchPokemon(`${pokemonName}`)
     );
   console.log(pokeSearchData);
+
+  //포켓몬 홈 리스트
+  const { data: pokeListData, isLoading: isListLoading } =
+    useQuery<IListPokemon>("pokemonList", getPokemon);
+  console.log(pokeListData);
 
   const searchOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -38,17 +44,26 @@ function Home() {
           onReset={onReset}
           onSubmit={searchOnSubmit}
         />
-        {isSearchLoading ? (
+        {isListLoading || isSearchLoading ? (
           <Loader>포켓몬 찾는중...</Loader>
         ) : pokeSearchData === undefined ? (
           <Loader>{pokemonName}에 대한 검색 결과가 없습니다.</Loader>
         ) : (
           <SearchResult>
-            <PokemonSearchCard
-              id={pokeSearchData.id}
-              name={pokeSearchData.name}
-              image={pokeSearchData.sprites?.front_default}
-            />
+            {pokeSearchData.id ? (
+              <PokemonSearchCard
+                id={pokeSearchData.id}
+                name={pokeSearchData.name}
+                image={pokeSearchData.sprites?.front_default}
+              />
+            ) : (
+              <>
+                {pokeListData && //포켓몬리스트를 만들고 홈에서 리스트를 호출?? 리스트 안에 카드 아이템만들기
+                  pokeListData?.results?.map((pokemon: any) => (
+                    <PokemonList key={pokemon.name} name={pokemon.name} />
+                  ))}
+              </>
+            )}
           </SearchResult>
         )}
       </Container>
