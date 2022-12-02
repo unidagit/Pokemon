@@ -1,10 +1,20 @@
 import { useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { getSearchPokemon } from "../../apis/api";
 import SearchBar from "../../components/searchbar/SearchBar";
+import { IDetailPokemon } from "../../interfaces/interface";
 
 function Home() {
   const [pokemonName, setPokemonName] = useState("");
   const [value, setValue] = useState("");
+
+  //검색하면 나오는 데이터
+  const { data: pokeSearchData } = useQuery<IDetailPokemon>(
+    ["pokemon", pokemonName],
+    () => getSearchPokemon(`${pokemonName}`)
+  );
+  console.log(pokeSearchData);
 
   const searchOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
