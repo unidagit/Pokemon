@@ -21,7 +21,6 @@ function PokemonList({ name }: IListName) {
     ["pokemonListImg", name],
     () => getPokemonImg(`${name}`)
   );
-  console.log(pokeListImgData);
 
   return (
     <CardContainer>

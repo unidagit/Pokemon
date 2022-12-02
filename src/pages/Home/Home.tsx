@@ -16,12 +16,10 @@ function Home() {
     useQuery<IDetailPokemon>(["pokemon", pokemonName], () =>
       getSearchPokemon(`${pokemonName}`)
     );
-  console.log(pokeSearchData);
 
   //포켓몬 홈 리스트
   const { data: pokeListData, isLoading: isListLoading } =
     useQuery<IListPokemon>("pokemonList", getPokemon);
-  console.log(pokeListData);
 
   const searchOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
