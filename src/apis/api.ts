@@ -13,3 +13,9 @@ export function getPokemon() {
     (response) => response.json()
   );
 }
+
+export function getPokemonImg(name: string) {
+  return fetch(`${BASE_PATH}/pokemon/${name}`).then((response) =>
+    response.json()
+  );
+}
